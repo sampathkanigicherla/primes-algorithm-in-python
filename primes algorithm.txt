@@ -1,0 +1,29 @@
+def primsAlgorithm(vertices):
+    adjacencyMatrix = [[0 for column in range(vertices)]
+                       for row in range(vertices)]
+    mstMatrix = [[0 for column in range(vertices)]
+                 for row in range(vertices)]
+    for i in range(0,vertices):
+        for j in range(0+i,vertices):
+            adjacencyMatrix[i][j] = int(input('Enter the path weight between the vertices: ({}, {}): '.format(i,j)))
+            adjacencyMatrix[j][i] = adjacencyMatrix[i][j]
+    positiveInf = float('inf')
+    selectedVertices = [False for vertex in range(vertices)]
+    while(False in selectedVertices):
+        minimum = positiveInf
+        start = 0
+        end = 0
+        for i in range(0,vertices):
+            if selectedVertices[i]:
+                for j in range(0+i,vertices):
+                    if (not selectedVertices[j] and adjacencyMatrix[i][j]>0):
+                        if adjacencyMatrix[i][j] < minimum:
+                            minimum = adjacencyMatrix[i][j]
+                            start, end = i, j
+        selectedVertices[end] = True
+        mstMatrix[start][end] = minimum
+        if minimum == positiveInf:
+            mstMatrix[start][end] = 0
+        mstMatrix[end][start] = mstMatrix[start][end]
+    print(mstMatrix)
+primsAlgorithm(int(input('Enter the vertices number: ')))
